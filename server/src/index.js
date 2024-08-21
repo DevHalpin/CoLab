@@ -56,10 +56,13 @@ io.on("connection", (socket) => {
   });
 });
 
+export { io };
 // Only export the handler for Vercel
 export default (req, res) => {
   server.emit("request", req, res);
 };
+
+
 
 // Start the server only for local development or other non-serverless environments
 if (process.env.NODE_ENV !== 'production') {
