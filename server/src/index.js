@@ -1,20 +1,15 @@
-import "dotenv/config.js";
+import "dotenv/config";
 import express from "express";
-import { config } from "dotenv";
 import session from "express-session";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 import http from "http";
 import { Server } from "socket.io";
 import projectsRoutes from "./routes/projects_routes.js";
-import morgan from 'morgan'
 import homeRoutes from "./routes/home_routes.js";
 import userRoutes from "./routes/user_routes.js";
 import db from "./db/connection.js";
 
-config();
-
-const PORT = process.env.PORT || 8080;
 const app = express();
 const server = http.createServer(app);
 const io = new Server(server, {
@@ -89,12 +84,12 @@ io.on("connection", (socket) => {
   });
 });
 
-
-export { io };
-
-server.listen(PORT, () => {
-  console.log(process.env.DATABASE_URL);
-  console.log("Server is running on port", PORT);
-});
-
-export default server;
+// Export a default function for Vercel serverless function
+export default (req, res) => {
+  return new Promise((resolve) => {
+    server.listen(process.env.PORT || 8080, () => {
+      console.log(`Server is running on port ${process.env.PORT || 8080}`);
+      resolve();
+    });
+  });
+};
