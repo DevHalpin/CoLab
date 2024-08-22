@@ -40,6 +40,7 @@ router.post('/register', async (req, res) => {
 // Pass up user info to frontend
 router.post('/login', async (req, res) => {
   const { email, password } = req.body;
+  console.log('Received login request:', email, password);
   if (!email || !password) {
     return res.status(400).send('Missing required fields');
   }

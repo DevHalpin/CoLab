@@ -14,12 +14,17 @@ const app = express();
 const server = http.createServer(app);
 const io = new Server(server, {
   cors: {
-    origin: "http://localhost:5173",
+    origin: "http://localhost:3000",
     methods: ["GET", "POST"]
   }
 });
 
-app.use(cors());
+app.use(cors(
+  {
+    origin: "*", // or production path
+    credentials: true,
+  }
+));
 app.options('*', cors());
 app.use(express.json());
 app.use(cookieParser());
@@ -60,13 +65,14 @@ export { io };
 // Only export the handler for Vercel
 export default (req, res) => {
   server.emit("request", req, res);
+  // console.log(`Server is running on port serverless`);
 };
 
 
 
 // Start the server only for local development or other non-serverless environments
-if (process.env.NODE_ENV !== 'production') {
-  server.listen(process.env.PORT || 8080, () => {
-    console.log(`Server is running on port ${process.env.PORT || 8080}`);
-  });
-}
+// if (process.env.NODE_ENV !== 'production') {
+//   server.listen(5173, () => {
+//     console.log(`Server is running on port`);
+//   });
+// }

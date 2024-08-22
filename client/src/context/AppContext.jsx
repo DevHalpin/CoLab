@@ -42,7 +42,7 @@ const ContextProvider = (props) => {
       }
     };
     fetchCurrentUser();
-  }, []);
+  }, [currentUser]);
 
   const handleLogout = async () => {
     try {
@@ -63,7 +63,7 @@ const ContextProvider = (props) => {
 
   /*------------------- Context block for notifications--------------*/
   useEffect(() => {
-    socket.current = io("http://localhost:8080");
+    socket.current = io(`http://localhost:3000/api/`);
 
     socket.current.on("connect", () => {
       console.log("Connected to server");
