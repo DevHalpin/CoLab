@@ -1,6 +1,6 @@
 import "dotenv/config";
 import express from "express";
-import session from "express-session";
+import cookieSession from "cookie-session";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 import http from "http";
@@ -24,11 +24,14 @@ app.use(express.json());
 app.use(cookieParser());
 
 app.use(
-  session({
-    secret: process.env.SESSION_SECRET,
-    resave: false,
-    saveUninitialized: false,
-    cookie: { secure: true },
+  cookieSession({
+    {
+      name: 'session',
+      keys: ['secretkey', 'secretkey2'],
+    
+      // Cookie Options
+      maxAge: 24 * 60 * 60 * 1000 // 24 hours
+    }
   })
 );
 
