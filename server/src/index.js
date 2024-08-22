@@ -19,13 +19,7 @@ const io = new Server(server, {
   }
 });
 
-app.use(cors(
-  {
-    origin: "*", // or production path
-    credentials: true,
-  }
-));
-app.options('*', cors());
+app.use(cors());
 app.use(express.json());
 app.use(cookieParser());
 
@@ -34,7 +28,7 @@ app.use(
     secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
-    cookie: { secure: process.env.NODE_ENV === "production" },
+    cookie: { secure: true },
   })
 );
 
